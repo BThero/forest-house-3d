@@ -1,7 +1,7 @@
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
-export function Grass() {
+export default function Grass() {
 	const [colorMap, roughnessMap, normalMap] = useTexture([
 		'grass/diffuse.jpeg',
 		'grass/rough.jpeg',
@@ -10,13 +10,14 @@ export function Grass() {
 
 	return (
 		<mesh rotation-x={Math.PI * -0.5} castShadow receiveShadow>
-			<planeGeometry args={[600, 200]} />
+			<planeGeometry args={[200, 200]} castShadow receiveShadow />
 			<meshStandardMaterial
+				castShadow
 				receiveShadow
 				map={colorMap}
 				map-wrapS={THREE.RepeatWrapping}
 				map-wrapT={THREE.RepeatWrapping}
-				map-repeat={[300, 100]}
+				map-repeat={[15, 15]}
 				normalMap={normalMap}
 				normalMap-wrapS={THREE.RepeatWrapping}
 				normalMap-wrapT={THREE.RepeatWrapping}

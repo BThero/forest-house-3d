@@ -3,7 +3,7 @@ import { useGLTF } from '@react-three/drei';
 import { FocusContext } from '../context';
 import * as THREE from 'three';
 
-function House(props) {
+export function House(props) {
 	const { nodes, materials } = useGLTF('/house2.glb');
 	const { setObj } = useContext(FocusContext);
 	const garageEntranceRef = useRef(null);
@@ -143,7 +143,5 @@ function House(props) {
 		</group>
 	);
 }
-
-export default House;
 
 useGLTF.preload('/house.glb');

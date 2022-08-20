@@ -145,7 +145,7 @@ function FocusObjectControls() {
 					Click
 				</button>
 			)}
-			{title.toLowerCase() === 'car'.toLowerCase() && (
+			{title.toLowerCase().startsWith('car') && (
 				<button
 					style={{
 						background: 'none',
@@ -155,8 +155,6 @@ function FocusObjectControls() {
 						marginTop: '0.5em',
 					}}
 					onClick={(e) => {
-						console.log(element);
-
 						e.preventDefault();
 						const maxFrames = 60;
 						const initialValue = 5;
@@ -164,7 +162,7 @@ function FocusObjectControls() {
 							endValue,
 							frames = 0;
 
-						if (element.position.z === initialValue) {
+						if (group.position.z === initialValue) {
 							startValue = initialValue;
 							endValue = initialValue - 5;
 						} else {
@@ -172,9 +170,12 @@ function FocusObjectControls() {
 							endValue = initialValue;
 						}
 
+						const { wheels } = obj;
+						console.log('wh', wheels);
+
 						const timer = setInterval(() => {
 							frames++;
-							element.position.z = THREE.MathUtils.mapLinear(
+							group.position.z = THREE.MathUtils.mapLinear(
 								frames,
 								0,
 								maxFrames,
@@ -182,12 +183,22 @@ function FocusObjectControls() {
 								endValue
 							);
 
-							const progress = THREE.MathUtils.mapLinear(frames, 0, maxFrames);
+							const progress = THREE.MathUtils.mapLinear(
+								frames,
+								0,
+								maxFrames,
+								0,
+								1
+							);
 
 							const wheelSpeed = Math.min(progress, 1.0 - progress, 0.1);
 
+							for (let i = 0; i < 4; i++) {
+								wheels[i].rotation.x += wheelSpeed;
+							}
+
 							if (frames === maxFrames) {
-								element.position.z = endValue;
+								group.position.z = endValue;
 								clearInterval(timer);
 							}
 						}, 50);

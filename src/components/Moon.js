@@ -1,45 +1,37 @@
-import { useHelper } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
-import * as THREE from 'three';
 
-const speed = 0.5;
+const speed = 0.1;
 const offset = Math.PI;
+const distance = 1000;
 
-export function Moon() {
+export default function Moon() {
 	const lightRef = useRef(null);
-	const objectRef = useRef(null);
 
 	useFrame(({ clock }) => {
 		const x = Math.cos(clock.getElapsedTime() * speed + offset);
 		const y = Math.sin(clock.getElapsedTime() * speed + offset);
 
-		lightRef.current.position.x = x * 1000;
-		lightRef.current.position.y = y * 1000;
-		lightRef.current.position.z = 0;
-
-		objectRef.current.position.x = x * 1000;
-		objectRef.current.position.y = y * 1000;
-		objectRef.current.position.z = 0;
-	});
+		lightRef.current.position.x = x * distance;
+		lightRef.current.position.y = y * distance;
+	}, 0);
 
 	return (
 		<>
 			<directionalLight
 				ref={lightRef}
+				position={[-distance, 0, 0]}
 				color="white"
 				intensity={0.8}
 				castShadow
+				shadow-mapSize-height={4096}
+				shadow-mapSize-width={4096}
+				shadow-camera-far={3500}
+				shadow-camera-left={-50}
+				shadow-camera-right={50}
+				shadow-camera-top={50}
+				shadow-camera-bottom={-50}
 			/>
-			<mesh ref={objectRef} scale={5} castShadow>
-				<sphereGeometry />
-				<meshStandardMaterial
-					color="white"
-					emissive="white"
-					emissiveIntensity={0.8}
-					castShadow
-				/>
-			</mesh>
 		</>
 	);
 }

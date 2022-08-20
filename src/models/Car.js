@@ -1,35 +1,37 @@
 import { useRef, useContext } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { FocusContext } from '../context';
-import * as THREE from 'three';
 
 export function Car(props) {
 	const { nodes, materials } = useGLTF('/car.glb');
-	const { setObj } = useContext(FocusContext);
+	const { setObj: setObjRaw } = useContext(FocusContext);
 	const carRef = useRef(null);
+	const wheelRef = useRef([]);
+
+	const setObj = (obj) => setObjRaw({ ...obj, wheels: wheelRef.current });
 
 	return (
-		<group
-			ref={carRef}
-			{...props}
-			dispose={null}
-			onClick={(e) => {
-				e.stopPropagation();
-				setObj({
-					title: 'Car',
-					body: 'This is your lovely car your father gifted to you 20 years ago',
-					element: carRef.current,
-					group: null,
-				});
-			}}
-		>
+		<group ref={carRef} {...props} dispose={null}>
 			<group rotation={[Math.PI, 0, Math.PI]}>
-				<group position={[-0.35, 0.3, 0.76]} scale={[-1, 1, 1]}>
+				<group
+					position={[-0.35, 0.3, 0.76]}
+					scale={[-1, 1, 1]}
+					onClick={(e) => {
+						e.stopPropagation();
+						setObj({
+							title: 'Car Wheel',
+							body: 'Wheels are circular shapes which make the car drive',
+							element: e.object,
+							group: carRef.current,
+						});
+					}}
+				>
 					<mesh
 						castShadow
 						receiveShadow
 						geometry={nodes.Mesh_wheel_frontLeft002.geometry}
 						material={materials['carTire.002']}
+						ref={(x) => (wheelRef.current[0] = x)}
 					/>
 					<mesh
 						castShadow
@@ -38,12 +40,24 @@ export function Car(props) {
 						material={materials['_defaultMat.002']}
 					/>
 				</group>
-				<group position={[0.35, 0.3, 0.76]}>
+				<group
+					position={[0.35, 0.3, 0.76]}
+					onClick={(e) => {
+						e.stopPropagation();
+						setObj({
+							title: 'Car Wheels',
+							body: 'Wheels are circular shapes which make the car drive',
+							element: e.object,
+							group: carRef.current,
+						});
+					}}
+				>
 					<mesh
 						castShadow
 						receiveShadow
 						geometry={nodes.Mesh_wheel_frontLeft002.geometry}
 						material={materials['carTire.002']}
+						ref={(x) => (wheelRef.current[1] = x)}
 					/>
 					<mesh
 						castShadow
@@ -52,12 +66,25 @@ export function Car(props) {
 						material={materials['_defaultMat.002']}
 					/>
 				</group>
-				<group position={[-0.35, 0.3, -0.86]} scale={[-1, 1, 1]}>
+				<group
+					position={[-0.35, 0.3, -0.86]}
+					scale={[-1, 1, 1]}
+					onClick={(e) => {
+						e.stopPropagation();
+						setObj({
+							title: 'Car Wheel',
+							body: 'Wheels are circular shapes which make the car drive',
+							element: e.object,
+							group: carRef.current,
+						});
+					}}
+				>
 					<mesh
 						castShadow
 						receiveShadow
 						geometry={nodes.Mesh_wheel_frontLeft002.geometry}
 						material={materials['carTire.002']}
+						ref={(x) => (wheelRef.current[2] = x)}
 					/>
 					<mesh
 						castShadow
@@ -66,12 +93,24 @@ export function Car(props) {
 						material={materials['_defaultMat.002']}
 					/>
 				</group>
-				<group position={[0.35, 0.3, -0.86]}>
+				<group
+					position={[0.35, 0.3, -0.86]}
+					onClick={(e) => {
+						e.stopPropagation();
+						setObj({
+							title: 'Car Wheel',
+							body: 'Wheels are circular shapes which make the car drive',
+							element: e.object,
+							group: carRef.current,
+						});
+					}}
+				>
 					<mesh
 						castShadow
 						receiveShadow
 						geometry={nodes.Mesh_wheel_frontLeft002.geometry}
 						material={materials['carTire.002']}
+						ref={(x) => (wheelRef.current[3] = x)}
 					/>
 					<mesh
 						castShadow
@@ -85,12 +124,30 @@ export function Car(props) {
 					receiveShadow
 					geometry={nodes.Mesh_body002.geometry}
 					material={materials.plastic}
+					onClick={(e) => {
+						e.stopPropagation();
+						setObj({
+							title: 'Car Borders',
+							body: 'One of the most often damaged car parts are borders',
+							element: e.object,
+							group: carRef.current,
+						});
+					}}
 				/>
 				<mesh
 					castShadow
 					receiveShadow
 					geometry={nodes.Mesh_body002_1.geometry}
 					material={materials.paintGreen}
+					onClick={(e) => {
+						e.stopPropagation();
+						setObj({
+							title: 'Car Body',
+							body: "Some cool cars don't have an upper part",
+							element: e.object,
+							group: carRef.current,
+						});
+					}}
 				/>
 				<mesh
 					castShadow
@@ -109,6 +166,15 @@ export function Car(props) {
 					receiveShadow
 					geometry={nodes.Mesh_body002_4.geometry}
 					material={materials.window}
+					onClick={(e) => {
+						e.stopPropagation();
+						setObj({
+							title: 'Car Windows',
+							body: 'In most action films people get killed because of the windows',
+							element: e.object,
+							group: carRef.current,
+						});
+					}}
 				/>
 				<mesh
 					castShadow

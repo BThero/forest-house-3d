@@ -1,21 +1,28 @@
-import { useState, useRef, useContext, useMemo, memo } from 'react';
+import { useState, useContext, memo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-
-import { Tree1, Tree2, Tree3 } from './models/Tree';
-import House from './models/House';
-import { Car } from './models/Car';
-import { Grass } from './Grass';
-
-import { Sun } from './components/Sun';
-import { Moon } from './components/Moon';
-
-import { FocusContext } from './context';
-import FocusObjectControls from './components/FocusObjectControls';
+import { OrbitControls, Environment, Stars, Stats } from '@react-three/drei';
+import * as THREE from 'three';
 
 import { random } from 'lodash';
 
-function generateTreePositions({ n, span, lim }) {
+import { Tree1, Tree2, Tree3 } from './models/Tree';
+import { House } from './models/House';
+import { Car } from './models/Car';
+
+import Grass from './components/Grass';
+import Moon from './components/Moon';
+import Camera from './components/Camera';
+import FocusObjectControls from './components/FocusObjectControls';
+
+import { FocusContext } from './context';
+
+function generateTrees({ n, span, lim }) {
+	const treeTypes = {
+		0: Tree1,
+		1: Tree2,
+		2: Tree3,
+	};
+
 	let array = [];
 
 	for (let i = 0; i < n; i++) {
@@ -29,7 +36,7 @@ function generateTreePositions({ n, span, lim }) {
 			bad = Math.abs(x) <= 15 && Math.abs(z) <= 15;
 
 			for (let i = 0; i < array.length; i++) {
-				const [xp, _yp, zp] = array[i];
+				const [xp, _yp, zp] = array[i].position;
 
 				if (Math.abs(x - xp) < lim && Math.abs(z - zp) < lim) {
 					bad = true;
@@ -37,7 +44,10 @@ function generateTreePositions({ n, span, lim }) {
 			}
 		}
 
-		array.push([x, 0, z]);
+		array.push({
+			position: [x, 0, z],
+			Component: treeTypes[random(0, 2, false)],
+		});
 	}
 
 	return array;
@@ -54,59 +64,45 @@ function ForwardCanvas({ children, ...props }) {
 }
 
 const MemoCanvas = memo(() => {
-	const treePositions = generateTreePositions({
+	const trees = generateTrees({
 		n: 200,
 		span: 60,
 		lim: 5,
 	});
 
 	return (
-		<ForwardCanvas shadows={true}>
-			{/* <Environment
-        background={true}
-        files={'/env.hdr'}
-        preset={null}
-        scene={undefined}
-        encoding={undefined}
-      /> */}
+		<ForwardCanvas shadows gl={{ antialias: false, alpha: false }}>
+			<Camera />
+			<Environment files={'/env.hdr'} preset={null} />
 			<ambientLight color="white" intensity={0.1} />
 			<Grass />
+			<Stats showPanel={0} className="stats" />
 
-			{treePositions.map((pos) => {
-				let Component;
+			{trees.map(({ position, Component }) => (
+				<Component scale={0.3} position={position} />
+			))}
 
-				switch (Math.floor(Math.random() * 3)) {
-					case 0: {
-						Component = Tree1;
-						break;
-					}
-
-					case 1: {
-						Component = Tree2;
-						break;
-					}
-
-					default: {
-						Component = Tree3;
-						break;
-					}
-				}
-
-				return <Component scale={0.3} position={pos} />;
-			})}
+			<Stars
+				radius={100}
+				depth={50}
+				count={5000}
+				factor={4}
+				saturation={0}
+				fade
+				speed={1}
+			/>
 
 			<fog color="black" attach="fog" near={50} far={100} />
 			<color args={['black']} attach="background" />
 
 			<House />
-			<Car scale={1} position={[3.5, 0, 5]} />
-			{/* <Sun /> */}
+			<Car position={[3.5, 0, 5]} />
 			<Moon />
 			<OrbitControls
-				// minDistance={30}
-				maxDistance={30}
-				minPolarAngle={Math.PI * 0.4}
-				// maxPolarAngle={Math.PI * 0.4}
+				// minDistance={20}
+				// maxDistance={20}
+				minPolarAngle={Math.PI * 0.3}
+				maxPolarAngle={Math.PI * 0.4}
 			/>
 		</ForwardCanvas>
 	);
