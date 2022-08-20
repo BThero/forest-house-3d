@@ -5,10 +5,14 @@ Start the project with usual `npm start`.
 
 ## Models
 
-I downloaded all models from the internet. But for the house I separated the garage door and garage door from other meshes (thet were joined in the initial model) and changed a pivot point and added a small red button on the side of garage door.
+I downloaded all models from the internet. But for the house I separated the garage door and garage window from other meshes (thet were joined in the initial model) and changed a pivot point and added a small red button on the side of garage door.
 The models were also very strangely scaled, so I just changed it from the code. 
 For the car model all 4 tires were separated, I wanted to join them to make it a bit lighter but I kept getting a messed up model on gltf.pmnd.rs so I left it as it is.
 For some reason all trees are ~200kb which was quite unexpected for me. I tried applying some basic compression methods on them, but it did not help much (reduced like only ~50kb at most).
+
+## Trees
+
+I randomly generate tree positions and types using lodash random. But the problem was that trees kept spawning near the house or they would collide with each other so I had to take my time and make sure it is generated properly.
 
 ## Lighting
 
