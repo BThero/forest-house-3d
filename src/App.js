@@ -1,13 +1,13 @@
 import { useState, useContext, memo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, Stars, Stats } from '@react-three/drei';
-import * as THREE from 'three';
 
 import { random } from 'lodash';
 
 import { Tree1, Tree2, Tree3 } from './models/Tree';
 import { House } from './models/House';
 import { Car } from './models/Car';
+import { Carriage } from './models/Carriage';
 
 import Grass from './components/Grass';
 import Moon from './components/Moon';
@@ -17,12 +17,7 @@ import FocusObjectControls from './components/FocusObjectControls';
 import { FocusContext } from './context';
 
 function generateTrees({ n, span, lim }) {
-	const treeTypes = {
-		0: Tree1,
-		1: Tree2,
-		2: Tree3,
-	};
-
+	const treeTypes = [Tree1, Tree2, Tree3];
 	let array = [];
 
 	for (let i = 0; i < n; i++) {
@@ -97,6 +92,7 @@ const MemoCanvas = memo(() => {
 
 			<House />
 			<Car position={[3.5, 0, 5]} />
+			<Carriage position={[-8, 0, 0]} scale={0.2} />
 			<Moon />
 			<OrbitControls
 				// minDistance={20}
