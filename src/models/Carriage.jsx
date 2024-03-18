@@ -1,7 +1,8 @@
 import { useGLTF } from '@react-three/drei';
+import carriageGLB from '/carriage.glb';
 
 export function Carriage(props) {
-	const { nodes, materials } = useGLTF('/carriage.glb');
+	const { nodes, materials } = useGLTF(carriageGLB);
 	return (
 		<group {...props} dispose={null}>
 			<mesh
@@ -70,4 +71,4 @@ export function Carriage(props) {
 	);
 }
 
-useGLTF.preload('/carriage.glb');
+useGLTF.preload(carriageGLB);

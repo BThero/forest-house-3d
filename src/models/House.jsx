@@ -2,9 +2,10 @@ import { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useFocusContext } from "../App";
+import HouseGLB from '/house.glb';
 
 export function House(props) {
-  const { nodes, materials } = useGLTF("/house2.glb");
+  const { nodes, materials } = useGLTF(HouseGLB);
   const { setObj } = useFocusContext();
   const garageEntranceRef = useRef(null);
 
@@ -144,4 +145,4 @@ export function House(props) {
   );
 }
 
-useGLTF.preload("/house.glb");
+useGLTF.preload(HouseGLB);

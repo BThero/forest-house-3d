@@ -1,7 +1,10 @@
 import { useGLTF } from '@react-three/drei';
+import Tree1GLB from '/tree1.glb';
+import Tree2GLB from '/tree2.glb';
+import Tree3GLB from '/tree3.glb';
 
 export function Tree1(props) {
-	const { nodes, materials } = useGLTF('/tree1.glb');
+	const { nodes, materials } = useGLTF(Tree1GLB);
 	return (
 		<group {...props} dispose={null}>
 			<mesh
@@ -14,10 +17,10 @@ export function Tree1(props) {
 	);
 }
 
-useGLTF.preload('/tree1.glb');
+useGLTF.preload(Tree1GLB);
 
 export function Tree2(props) {
-	const { nodes, materials } = useGLTF('/tree2.glb');
+	const { nodes, materials } = useGLTF(Tree2GLB);
 	return (
 		<group {...props} dispose={null}>
 			<mesh
@@ -30,10 +33,10 @@ export function Tree2(props) {
 	);
 }
 
-useGLTF.preload('/tree2.glb');
+useGLTF.preload(Tree2GLB);
 
 export function Tree3(props) {
-	const { nodes, materials } = useGLTF('/tree3.glb');
+	const { nodes, materials } = useGLTF(Tree3GLB);
 	return (
 		<group {...props} dispose={null}>
 			<mesh
@@ -46,4 +49,4 @@ export function Tree3(props) {
 	);
 }
 
-useGLTF.preload('/tree3.glb');
+useGLTF.preload(Tree3GLB);

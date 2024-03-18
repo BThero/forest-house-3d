@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFocusContext } from "../App";
+import carGLB from '/car.glb';
 
 export function Car(props) {
-  const { nodes, materials } = useGLTF("/car.glb");
+  const { nodes, materials } = useGLTF(carGLB);
   const { setObj: setObjRaw } = useFocusContext();
   const carRef = useRef(null);
   const wheelRef = useRef([]);
@@ -187,4 +188,4 @@ export function Car(props) {
   );
 }
 
-useGLTF.preload("/car.glb");
+useGLTF.preload(carGLB);

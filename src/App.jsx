@@ -14,6 +14,8 @@ import Moon from "./components/Moon";
 import Camera from "./components/Camera";
 import FocusObjectControls from "./components/FocusObjectControls";
 
+import envHDR from '/env.hdr';
+
 const FocusContext = createContext();
 
 export const useFocusContext = () => {
@@ -70,7 +72,7 @@ const MemoCanvas = memo(() => {
     <Canvas shadows gl={{ antialias: false, alpha: false }}>
       <FocusContext.Provider value={value}>
         <Camera />
-        <Environment files="/env.hdr" preset={null} />
+        <Environment files={envHDR} preset={null} />
         <ambientLight color="white" intensity={0.1} />
         <Grass />
         <Stats showPanel={0} className="stats" />
